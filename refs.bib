@@ -1,3 +1,10 @@
+% =====================================================================
+% refs.bib  — consolidated bibliography for the Nimigi core papers
+% Covers citations used in the updated QFI and Idiom Projections main.tex,
+% plus widely used cross-stack references (drift, LDP, modal/markov cats).
+% =====================================================================
+
+% ---------------- Core manuscripts in this corpus ----------------
 @unpublished{elliott2025qfi,
   title   = {The Quotient Flow Invariant},
   author  = {Elliott, Jacob Alexander},
@@ -12,15 +19,15 @@
   note    = {Manuscript}
 }
 
-@unpublished{elliott2025flow,
-  title   = {Measure-Theoretic Flow Centrality},
+@unpublished{elliott2025drift,
+  title   = {Ergodic Metric Drift as a Path--Validity Engine: Finite Graphs},
   author  = {Elliott, Jacob Alexander},
   year    = {2025},
   note    = {Manuscript}
 }
 
-@unpublished{elliott2025drift,
-  title   = {Ergodic Metric Drift as a Path--Validity Engine: Finite Graphs},
+@unpublished{elliott2025flow,
+  title   = {Measure-Theoretic Flow Centrality},
   author  = {Elliott, Jacob Alexander},
   year    = {2025},
   note    = {Manuscript}
@@ -54,6 +61,7 @@
   note    = {Manuscript}
 }
 
+% ---------------- Classical information theory / geometry ----------
 @book{CoverThomas2006,
   author    = {Cover, Thomas M. and Thomas, Joy A.},
   title     = {Elements of Information Theory},
@@ -86,6 +94,7 @@
   pages   = {265--272}
 }
 
+% ---------------- Quantum sufficiency / monotone metrics -----------
 @article{Petz1986,
   author  = {Petz, D{\'e}nes},
   title   = {Sufficient Subalgebras and the Relative Entropy of States of a von Neumann Algebra},
@@ -104,6 +113,7 @@
   pages   = {81--96}
 }
 
+% ---------------- Large deviations / spectral tilts ----------------
 @book{DemboZeitouni1998,
   author    = {Dembo, Amir and Zeitouni, Ofer},
   title     = {Large Deviations Techniques and Applications},
@@ -112,6 +122,7 @@
   publisher = {Springer}
 }
 
+% ---------------- Drift / mixing / regeneration --------------------
 @book{MeynTweedie2009,
   author    = {Meyn, Sean P. and Tweedie, Richard L.},
   title     = {Markov Chains and Stochastic Stability},
@@ -138,4 +149,243 @@
   volume  = {3},
   number  = {1},
   pages   = {100--118}
+}
+
+% ---------------- Optimal transport / continuity diagnostics -------
+@book{Villani2009,
+  author    = {Villani, C{\'e}dric},
+  title     = {Optimal Transport: Old and New},
+  year      = {2009},
+  publisher = {Springer}
+}
+
+% ---------------- Categorical probability (background, optional) ---
+@incollection{Giry1982,
+  author    = {Giry, Mich{\`e}le},
+  title     = {A Categorical Approach to Probability Theory},
+  booktitle = {Categorical Aspects of Topology and Analysis},
+  year      = {1982},
+  publisher = {Springer},
+  pages     = {68--85}
+}
+
+@article{Fritz2020,
+  author  = {Fritz, Tobias},
+  title   = {A Synthetic Approach to Markov Kernels, Conditional Independence, and theorems on Sufficient Statistics},
+  journal = {Advances in Mathematics},
+  year    = {2020},
+  volume  = {370},
+  pages   = {107239}
+}
+
+@book{Jacobs2011,
+  author    = {Jacobs, Bart},
+  title     = {Probabilities, Distribution Monads, and Probability Monads},
+  publisher = {IFIP AICT},
+  year      = {2011}
+}
+
+@inproceedings{Staton2017,
+  author    = {Staton, Sam},
+  title     = {Commutative Semantics for Probabilistic Programming},
+  booktitle = {Programming Languages and Systems (ESOP)},
+  year      = {2017},
+  publisher = {Springer}
+}
+
+% ---------------- Aggregation / lumpability / metastability --------
+@book{KemenySnell1976,
+  author    = {Kemeny, John G. and Snell, J. Laurie},
+  title     = {Finite Markov Chains},
+  year      = {1976},
+  publisher = {Springer}
+}
+
+@book{Seneta2006,
+  author    = {Seneta, Eugene},
+  title     = {Non-negative Matrices and Markov Chains},
+  edition   = {Revised},
+  year      = {2006},
+  publisher = {Springer}
+}
+
+@article{DeuflhardWeber2005,
+  author  = {Deuflhard, Peter and Weber, Marcus},
+  title   = {Robust Perron Cluster Analysis in Conformation Dynamics},
+  journal = {Linear Algebra and its Applications},
+  year    = {2005},
+  volume  = {398},
+  pages   = {161--184}
+}
+
+@inproceedings{LiWalshLittman2006,
+  author    = {Li, Lihong and Walsh, Thomas J. and Littman, Michael L.},
+  title     = {Towards a Unified Theory of State Abstraction for MDPs},
+  booktitle = {ISAIM},
+  year      = {2006}
+}
+
+% ---------------- Centrality / network flow analogies --------------
+@article{Freeman1977,
+  author  = {Freeman, Linton C.},
+  title   = {A Set of Measures of Centrality Based on Betweenness},
+  journal = {Sociometry},
+  year    = {1977},
+  volume  = {40},
+  number  = {1},
+  pages   = {35--41}
+}
+
+@article{Katz1953,
+  author  = {Katz, Leo},
+  title   = {A New Status Index Derived from Sociometric Analysis},
+  journal = {Psychometrika},
+  year    = {1953},
+  volume  = {18},
+  number  = {1},
+  pages   = {39--43}
+}
+
+@article{Newman2005,
+  author  = {Newman, M. E. J.},
+  title   = {A Measure of Betweenness Centrality Based on Random Walks},
+  journal = {Social Networks},
+  year    = {2005},
+  volume  = {27},
+  number  = {1},
+  pages   = {39--54}
+}
+
+@book{DoyleSnell1984,
+  author    = {Doyle, Peter G. and Snell, J. Laurie},
+  title     = {Random Walks and Electric Networks},
+  publisher = {Mathematical Association of America},
+  year      = {1984}
+}
+
+% ---------------- Perturbation theory (optional background) --------
+@book{Kato1995,
+  author    = {Kato, Tosio},
+  title     = {Perturbation Theory for Linear Operators},
+  edition   = {Reprint of the 1980 edition},
+  year      = {1995},
+  publisher = {Springer}
+}
+
+@book{StewartSun1990,
+  author    = {Stewart, G. W. and Sun, Ji-guang},
+  title     = {Matrix Perturbation Theory},
+  year      = {1990},
+  publisher = {Academic Press}
+}
+
+% ---------------- Detection / online control (used elsewhere) ------
+@article{Page1954,
+  author  = {Page, E. S.},
+  title   = {Continuous Inspection Schemes},
+  journal = {Biometrika},
+  year    = {1954},
+  volume  = {41},
+  number  = {1/2},
+  pages   = {100--115}
+}
+
+@book{BassevilleNikiforov1993,
+  author    = {Basseville, Mich{\`e}le and Nikiforov, Igor V.},
+  title     = {Detection of Abrupt Changes: Theory and Application},
+  year      = {1993},
+  publisher = {Prentice Hall}
+}
+
+@article{BenjaminiHochberg1995,
+  author  = {Benjamini, Yoav and Hochberg, Yosef},
+  title   = {Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing},
+  journal = {Journal of the Royal Statistical Society. Series B},
+  year    = {1995},
+  volume  = {57},
+  number  = {1},
+  pages   = {289--300}
+}
+
+@article{JavanmardMontanari2018,
+  author  = {Javanmard, Adel and Montanari, Andrea},
+  title   = {Online Rules for Control of False Discovery Rate and False Discovery Exceedance},
+  journal = {The Annals of Statistics},
+  year    = {2018},
+  volume  = {46},
+  number  = {2},
+  pages   = {526--554}
+}
+
+@article{RamdasEtAl2018,
+  author  = {Ramdas, Aaditya and Zrnic, Tijana and Wainwright, Martin J. and Jordan, Michael I.},
+  title   = {SAFFRON: An Adaptive Algorithm for Online Control of the False Discovery Rate},
+  journal = {Proceedings of the International Conference on Machine Learning (ICML)},
+  year    = {2018}
+}
+
+% ---------------- Control / bounded rationality (used in KI stack) --
+@book{Puterman1994,
+  author    = {Puterman, Martin L.},
+  title     = {Markov Decision Processes: Discrete Stochastic Dynamic Programming},
+  year      = {1994},
+  publisher = {Wiley}
+}
+
+@book{Altman1999,
+  author    = {Altman, Eitan},
+  title     = {Constrained Markov Decision Processes},
+  year      = {1999},
+  publisher = {Chapman and Hall/CRC}
+}
+
+@article{Kappen2005,
+  author  = {Kappen, Hilbert J.},
+  title   = {Path Integrals and Symmetry Breaking for Optimal Control Theory},
+  journal = {Journal of Statistical Mechanics: Theory and Experiment},
+  year    = {2005},
+  number  = {11},
+  pages   = {P11011}
+}
+
+@article{Todorov2009,
+  author  = {Todorov, Emanuel},
+  title   = {Efficient Computation of Optimal Actions},
+  journal = {Proceedings of the National Academy of Sciences},
+  year    = {2009},
+  volume  = {106},
+  number  = {28},
+  pages   = {11478--11483}
+}
+
+@inproceedings{McAllester1999,
+  author    = {McAllester, David A.},
+  title     = {PAC-Bayesian Model Averaging},
+  booktitle = {COLT},
+  year      = {1999}
+}
+
+@book{Catoni2007,
+  author    = {Catoni, Olivier},
+  title     = {PAC-Bayesian Supervised Classification: The Thermodynamics of Statistical Learning},
+  year      = {2007},
+  publisher = {IMS}
+}
+
+% ---------------- LDP classical origins (optional background) ------
+@article{DonskerVaradhan1975,
+  author  = {Donsker, Monroe and Varadhan, S. R. Srinivasa},
+  title   = {Asymptotic Evaluation of Certain Markov Process Expectations for Large Time},
+  journal = {Communications on Pure and Applied Mathematics},
+  year    = {1975},
+  volume  = {28},
+  number  = {1},
+  pages   = {1--47}
+}
+
+@book{Ellis1985,
+  author    = {Ellis, Richard S.},
+  title     = {Entropy, Large Deviations, and Statistical Mechanics},
+  year      = {1985},
+  publisher = {Springer}
 }
