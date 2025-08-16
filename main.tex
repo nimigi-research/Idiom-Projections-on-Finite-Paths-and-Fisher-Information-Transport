@@ -1,0 +1,113 @@
+% !TEX TS-program = lualatex
+\documentclass[11pt]{article}
+
+% ---------- Packages ----------
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb,mathtools,bm}
+\usepackage{bbm}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{thmtools}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=teal,urlcolor=magenta]{hyperref}
+\usepackage[nameinlink,capitalize]{cleveref}
+
+% ---------- Bibliography as embedded file ----------
+% [removed: embedded refs.bib filecontents]
+
+\usepackage[backend=biber,style=authoryear,doi=true,isbn=false,url=false,giveninits=true,maxcitenames=2]{biblatex}
+\addbibresource{refs.bib}
+
+% ---------- Theorem-like environments ----------
+\declaretheorem[name=Theorem,numberwithin=section]{theorem}
+\declaretheorem[name=Proposition,sibling=theorem]{proposition}
+\declaretheorem[name=Lemma,sibling=theorem]{lemma}
+\declaretheorem[name=Corollary,sibling=theorem]{corollary}
+\declaretheorem[name=Definition,sibling=theorem]{definition}
+\declaretheorem[name=Remark,sibling=theorem]{remark}
+\declaretheorem[name=Example,sibling=theorem]{example}
+
+% ---------- Macros ----------
+\newcommand{\MT}{\mathrm{MT}}
+\newcommand{\CT}{\mathrm{CT}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Argmin}{\operatorname*{arg\,min}}
+\newcommand{\Argmax}{\operatorname*{arg\,max}}
+\newcommand{\inner}[2]{\left\langle #1,\,#2\right\rangle}
+
+% ---------- Title ----------
+\title{\textbf{Idiom Projections on Finite Paths and Fisher--Information Transport}}
+\author{Jacob Alexander Elliott}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We develop two compositional idioms over finite path spaces and ...ts on the $\CT$ side---the correspondence is local and lossless.
+
+Fisher information (FI) transports \emph{exactly}: $I_{Q(L)}(\theta)\!=\!I_{L}(\theta)$ when $Q$ is an isometry induced by sufficient statistics; under coarse-grainings, FI contracts as expected and the Cram\'er--Rao lower bound (CRLB) degrades monotonically. Quantum FI, via classical embeddings and Petz monotone metrics, mirrors the same data-processing behavior. Category-theoretic scaffolding and enriched structures remain background \parencite{Kelly1982,Elliott2025ModalShell}.
+\end{abstract}
+
+% =========================
+\section{Setup}\label{sec:setup}
+% =========================
+Let $G=(V,E)$ be a finite directed graph and $T\in\mathbb{N}$ a ...algebra. Parameters live in an open $\Theta\subset\mathbb{R}^d$.
+
+\paragraph{MT objects.}
+An $\MT$ object is $(G,T,\{P_\theta\}_{\theta\in\Theta})$ with $...p_\theta(p)$. The Fisher information matrix (FIM) at $\theta$ is
+\begin{equation}
+I_P(\theta)
+=\E_{P_\theta}\!\big[(\nabla_\theta \ell_\theta)(\nabla_\theta \ell_\theta)^\top\big]
+=-\E_{P_\theta}\!\big[\nabla_\theta^2 \ell_\theta\big],
+\end{equation}
+well-defined since the space is finite \parencite{Fisher1922}.
+
+\paragraph{CT objects.}
+Fix $\lambda>0$ (inverse temperature). A $\CT$ object is ...; partition, gradient, and Hessian without path enumeration. The ... maps are enriched; see also \parencite{Giry1982,Fritz2020,Kelly1982} for categorical probability and enriched structures.
+
+% =========================
+\section{Information transport}\label{sec:transport}
+% =========================
+Let $K$ be a Markov kernel (coarse-graining); denote pushforward $Q(F_K L)$ on the $\CT$ side and $Q(L)$ the CT embedding. Then:
+\begin{proposition}[Data processing]\label{prop:DP}
+$I_{Q(F_K L)}(\theta)\preceq I_{Q(L)}(\theta)$ with equality iff $\nabla_\theta \ell_\theta$ is a.s. measurable w.r.t.\ a sufficient statistic, i.e.\ equality at sufficiency \parencite{Pitman1936,Koopman1936,Darmois1935,Cover2006,Csiszar2011}.
+\end{proposition}
+
+\begin{remark}[CRLB transport]
+For any locally unbiased estimator $\hat\theta$ under $P_\theta$,
+\(
+\Cov(\hat\theta)\succeq I_P(\theta)^{-1}.
+\)
+Under a kernel $K$ the bound degrades monotonically by \cref{prop:DP}. Related invariants are discussed in \textcite{QFI}.
+\end{remark}
+
+% =========================
+\section{Quantum information}\label{sec:quantum}
+% =========================
+Embed $Q(L)_\theta$ diagonally as $\rho_\theta=\sum_p Q(L)_\theta(p)\,|p\rangle\!\langle p|$. The quantum Fisher information $F_Q(\rho_\theta)$ satisfies $I_{Q(L)}(\theta)\le F_Q(\rho_\theta)$ with equality characterized by Petz sufficiency \parencite{Petz1986,Helstrom1976,Braunstein1994,Holevo2019,Paris2009}. For any channel $\Lambda$ that coarse-grains outcomes,
+$F_Q(\Lambda(\rho_\theta))\le F_Q(\rho_\theta)$, paralleling \cref{prop:DP}. Related invariants are discussed in \textcite{QFI}.
+\end{remark}
+
+% =========================
+\section{FI examples}\label{sec:examples}
+% =========================
+... examples, finite sums; proofs rely only on standard manipulations of Markov kernels and exponential families.
+
+% =========================
+\section*{Related and external works}
+% =========================
+\begin{itemize}[leftmargin=2em]
+\item \textbf{Information geometry and monotonicity.} The Fisher information induces a Riemannian metric on statistical models; its monotonicity under Markov morphisms and the role of $\alpha$-connections are developed in \textcite{AmariNagaoka2000} and the classic monograph of \textcite{Cencov1981}.
+\item \textbf{Classical lower bounds and asymptotics.} The Cram\'er--Rao bound and related inequalities trace to \textcite{Cramer1946} and \textcite{Rao1945}; broader decision-theoretic and asymptotic treatments appear in \textcite{LeCam1986}.
+\item \textbf{Comparison of experiments and sufficiency.} For data-processing and sufficiency notions allied to our transport results, see \textcite{Blackwell1951}.
+\item \textbf{Bayesian Cram\'er--Rao (van Trees) bound.} For a Bayesian perspective on information bounds under channels, see \textcite{VanTrees1968}.
+\end{itemize}
+
+\printbibliography
+
+\end{document}
