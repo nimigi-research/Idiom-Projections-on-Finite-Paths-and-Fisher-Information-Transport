@@ -1,112 +1,136 @@
-% !TEX TS-program = lualatex
+% =====================================================================
+% Idiom Projections on Finite Paths & Fisher–Information Transport
+% Monolithic main.tex (drop-in replacement)
+% =====================================================================
 \documentclass[11pt]{article}
 
-% ---------- Packages ----------
-\usepackage[a4paper,margin=1in]{geometry}
-\usepackage{amsmath,amsthm,amssymb,mathtools,bm}
-\usepackage{bbm}
-\usepackage{xcolor}
-\usepackage{microtype}
-\usepackage{enumitem}
-\usepackage{thmtools}
-\usepackage{algorithm}
-\usepackage{algpseudocode}
-\usepackage[colorlinks=true,linkcolor=blue,citecolor=teal,urlcolor=magenta]{hyperref}
-\usepackage[nameinlink,capitalize]{cleveref}
+% -------------------- Encoding & Geometry --------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
 
-% ---------- Bibliography as embedded file ----------
-% [removed: embedded refs.bib filecontents]
+% -------------------- Math & Theorems --------------------
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{bm,bbm}
+\usepackage{booktabs}
 
-\usepackage[backend=biber,style=authoryear,doi=true,isbn=false,url=false,giveninits=true,maxcitenames=2]{biblatex}
-\addbibresource{refs.bib}
+% -------------------- Hyperrefs & Cleveref --------------------
+\usepackage{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
 
-% ---------- Theorem-like environments ----------
-\declaretheorem[name=Theorem,numberwithin=section]{theorem}
-\declaretheorem[name=Proposition,sibling=theorem]{proposition}
-\declaretheorem[name=Lemma,sibling=theorem]{lemma}
-\declaretheorem[name=Corollary,sibling=theorem]{corollary}
-\declaretheorem[name=Definition,sibling=theorem]{definition}
-\declaretheorem[name=Remark,sibling=theorem]{remark}
-\declaretheorem[name=Example,sibling=theorem]{example}
+% -------------------- Bibliography (biblatex/biber) --------------------
+\usepackage[backend=biber,style=authoryear,maxcitenames=2,maxbibnames=9,doi=false,isbn=false,url=false]{biblatex}
+\addbibresource{refs.bib} % keep your existing bibliography
+\addbibresource{refs_idiom_projections.bib} % new companion file provided with this paper
 
-% ---------- Macros ----------
-\newcommand{\MT}{\mathrm{MT}}
-\newcommand{\CT}{\mathrm{CT}}
+% -------------------- Environments & Macros --------------------
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
 \newcommand{\E}{\mathbb{E}}
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\N}{\mathbb{N}}
-\newcommand{\Argmin}{\operatorname*{arg\,min}}
-\newcommand{\Argmax}{\operatorname*{arg\,max}}
-\newcommand{\inner}[2]{\left\langle #1,\,#2\right\rangle}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\1}{\mathbbm{1}}
+\newcommand{\KL}{\mathrm{KL}}
+\newcommand{\Var}{\mathrm{Var}}
 
-% ---------- Title ----------
-\title{\textbf{Idiom Projections on Finite Paths and Fisher--Information Transport}}
-\author{Jacob Alexander Elliott}
-\date{\today}
+\title{Idiom Projections on Finite Paths \& Fisher--Information Transport\\
+\large Invariance, Sufficiency, and Scheduling Across Idioms}
+\author{}
+\date{August 16, 2025}
 
+% =====================================================================
 \begin{document}
 \maketitle
 
 \begin{abstract}
-We develop two compositional idioms over finite path spaces and ...ts on the $\CT$ side---the correspondence is local and lossless.
-
-Fisher information (FI) transports \emph{exactly}: $I_{Q(L)}(\theta)\!=\!I_{L}(\theta)$ when $Q$ is an isometry induced by sufficient statistics; under coarse-grainings, FI contracts as expected and the Cram\'er--Rao lower bound (CRLB) degrades monotonically. Quantum FI, via classical embeddings and Petz monotone metrics, mirrors the same data-processing behavior. Category-theoretic scaffolding and enriched structures remain background \parencite{Kelly1982,Elliott2025ModalShell}.
+We develop a portable theory of \emph{idiom projections} for inference on finite path models and prove how Fisher information (FI) and Cram{\'e}r--Rao bounds behave under idiom changes---from set-theoretic kernels to categorical probability and to quotient-flow representations. A classical data-processing inequality for FI is derived at path level, with equality if and only if the projection is sufficient in the sense of Blackwell; a quantum lift via Petz sufficiency and monotone metrics shows the same equivalences under diagonal embeddings. We prove composition laws, idempotents, and stability under coarse-graining, and we connect the transport theorems to (i) \emph{Measure-Theoretic Flow Centrality} for routing on quotient graphs, (ii) the \emph{Quotient Flow Invariant} (QFI) for spectral--LDP diagnostics, (iii) \emph{Ergodic Metric Drift} for coverage guarantees, and (iv) \emph{Parallel Murphy Budgeting} for finite-time discovery. A worked example on a two-edge path quantifies strict FI loss under coarse-graining versus equality under sufficient statistics. The results align with the instrumentation and canonical-phase mapping used in KI-\(\Delta\)2. \parencite{Blackwell1953,AmariNagaoka2000,Cencov1982,Petz1986,Petz1996,CoverThomas2006,elliott2025flow,elliott2025qfi,elliott2025drift,elliott2025pmb,elliott2025ki,elliott2025contracts,elliott2025graded}
 \end{abstract}
 
-% =========================
-\section{Setup}\label{sec:setup}
-% =========================
-Let $G=(V,E)$ be a finite directed graph and $T\in\mathbb{N}$ a ...algebra. Parameters live in an open $\Theta\subset\mathbb{R}^d$.
-
-\paragraph{MT objects.}
-An $\MT$ object is $(G,T,\{P_\theta\}_{\theta\in\Theta})$ with $...p_\theta(p)$. The Fisher information matrix (FIM) at $\theta$ is
-\begin{equation}
-I_P(\theta)
-=\E_{P_\theta}\!\big[(\nabla_\theta \ell_\theta)(\nabla_\theta \ell_\theta)^\top\big]
-=-\E_{P_\theta}\!\big[\nabla_\theta^2 \ell_\theta\big],
-\end{equation}
-well-defined since the space is finite \parencite{Fisher1922}.
-
-\paragraph{CT objects.}
-Fix $\lambda>0$ (inverse temperature). A $\CT$ object is ...; partition, gradient, and Hessian without path enumeration. The ... maps are enriched; see also \parencite{Giry1982,Fritz2020,Kelly1982} for categorical probability and enriched structures.
-
-% =========================
-\section{Information transport}\label{sec:transport}
-% =========================
-Let $K$ be a Markov kernel (coarse-graining); denote pushforward $Q(F_K L)$ on the $\CT$ side and $Q(L)$ the CT embedding. Then:
-\begin{proposition}[Data processing]\label{prop:DP}
-$I_{Q(F_K L)}(\theta)\preceq I_{Q(L)}(\theta)$ with equality iff $\nabla_\theta \ell_\theta$ is a.s. measurable w.r.t.\ a sufficient statistic, i.e.\ equality at sufficiency \parencite{Pitman1936,Koopman1936,Darmois1935,Cover2006,Csiszar2011}.
-\end{proposition}
-
-\begin{remark}[CRLB transport]
-For any locally unbiased estimator $\hat\theta$ under $P_\theta$,
-\(
-\Cov(\hat\theta)\succeq I_P(\theta)^{-1}.
-\)
-Under a kernel $K$ the bound degrades monotonically by \cref{prop:DP}. Related invariants are discussed in \textcite{QFI}.
-\end{remark}
-
-% =========================
-\section{Quantum information}\label{sec:quantum}
-% =========================
-Embed $Q(L)_\theta$ diagonally as $\rho_\theta=\sum_p Q(L)_\theta(p)\,|p\rangle\!\langle p|$. The quantum Fisher information $F_Q(\rho_\theta)$ satisfies $I_{Q(L)}(\theta)\le F_Q(\rho_\theta)$ with equality characterized by Petz sufficiency \parencite{Petz1986,Helstrom1976,Braunstein1994,Holevo2019,Paris2009}. For any channel $\Lambda$ that coarse-grains outcomes,
-$F_Q(\Lambda(\rho_\theta))\le F_Q(\rho_\theta)$, paralleling \cref{prop:DP}. Related invariants are discussed in \textcite{QFI}.
-\end{remark}
-
-% =========================
-\section{FI examples}\label{sec:examples}
-% =========================
-... examples, finite sums; proofs rely only on standard manipulations of Markov kernels and exponential families.
-
-% =========================
-\section*{Related and external works}
-% =========================
-\begin{itemize}[leftmargin=2em]
-\item \textbf{Information geometry and monotonicity.} The Fisher information induces a Riemannian metric on statistical models; its monotonicity under Markov morphisms and the role of $\alpha$-connections are developed in \textcite{AmariNagaoka2000} and the classic monograph of \textcite{Cencov1981}.
-\item \textbf{Classical lower bounds and asymptotics.} The Cram\'er--Rao bound and related inequalities trace to \textcite{Cramer1946} and \textcite{Rao1945}; broader decision-theoretic and asymptotic treatments appear in \textcite{LeCam1986}.
-\item \textbf{Comparison of experiments and sufficiency.} For data-processing and sufficiency notions allied to our transport results, see \textcite{Blackwell1951}.
-\item \textbf{Bayesian Cram\'er--Rao (van Trees) bound.} For a Bayesian perspective on information bounds under channels, see \textcite{VanTrees1968}.
+\section{Introduction}
+A finite path model is the smallest nontrivial arena where idioms disagree yet can be made to cooperate: set-theoretic kernels produce stochastic path measures; categorical probability organizes them via Markov categories; and quotient flows compress paths to a finite Markov object that we can analyze spectrally. Our aim is to make explicit how \emph{Fisher information} transports across these idioms under \emph{idiom projections}: Markov kernels that map one observation model to another while preserving declared loss families. We show:
+\begin{itemize}
+  \item FI \emph{contracts} under every idiom projection (data processing), with \emph{equality iff} the projection is sufficient in the sense of \textcite{Blackwell1953} and the information-geometric characterizations in \textcite{AmariNagaoka2000,Cencov1982}.
+  \item CRLB widths \emph{monotonically widen} under nontrivial coarse-grainings, matching phase-boundary curvature diagnostics \parencite[Ch.\ 2, 10]{CoverThomas2006}.
+  \item The same statements hold under a quantum embedding: diagonal classical states lift to density operators; equality corresponds to Petz sufficiency and monotone metrics \parencite{Petz1986,Petz1996}.
 \end{itemize}
+We integrate these with QFI’s spectral--LDP layer and with Murphy scheduling to design finite-time experiments that expose idiom-stable structure \parencite{elliott2025qfi,DemboZeitouni1998,elliott2025pmb}. Coverage is guaranteed by the drift-validity engine \parencite{elliott2025drift}.
+
+\section{Finite path models and idiom projections}
+Let \(\mathcal{X}\) be a finite state space and \(\mathcal{A}\) a finite action set. A (history-based) policy \(\pi_\theta\) with parameter \(\theta\in\Theta\subset\mathbb{R}^d\) induces a family of path measures \(P_\theta\) on \(\mathcal{X}^{0:T}\). An \emph{idiom projection} is a Markov kernel \(K\) from histories to a new observation space \(\mathcal{Y}\) producing \(Q_\theta:=K\circ P_\theta\). The kernel \(K\) is tailored to a declared loss family \(\mathcal{L}\) (e.g., Bregman or log-loss), aligning with Blackwell’s comparison-of-experiments ordering \parencite{Blackwell1953}.
+
+\begin{definition}[Blackwell sufficiency on paths]
+A projection \(K\) is \emph{sufficient} for the family \(\{P_\theta:\theta\in\Theta\}\) and loss \(\mathcal{L}\) if there exists a kernel \(R\) such that \(R\circ Q_\theta=P_\theta\) for all \(\theta\) and the Bayes risks agree for all priors and actions in \(\mathcal{L}\) \parencite{Blackwell1953}.
+\end{definition}
+
+\noindent Categorical and quotient idioms: The same \(K\) is a morphism in a Markov category; after partitioning paths and aggregating, it descends to a quotient flow (finite Markov chain) on which spectral and LDP computations are performed \parencite{elliott2025flow,elliott2025qfi}.
+
+\section{Fisher information transport: classical data processing}
+For a regular parametric family \(\{P_\theta\}\) on paths with density \(p_\theta\), define the Fisher information
+\[
+I(\theta)\;=\;\E_{P_\theta}\!\big[\nabla_\theta \log p_\theta\,\nabla_\theta \log p_\theta^\top\big].
+\]
+Under projection \(Q_\theta=K\circ P_\theta\) (with density \(q_\theta\)), information contracts.
+
+\begin{theorem}[FI data processing on paths]\label{thm:fi-dpi}
+For any idiom projection \(K\) and regular family \(\{P_\theta\}\),
+\[
+I_{Q}(\theta)\;\preceq\; I_{P}(\theta)\,,
+\]
+with equality for all \(\theta\) if and only if \(K\) is sufficient for \(\{P_\theta\}\) and \(\mathcal{L}\) \parencite{Blackwell1953,AmariNagaoka2000,Cencov1982}.
+\end{theorem}
+
+\noindent\emph{Sketch.} Classical proofs extend to path level by treating \(K\) as conditional expectation and projecting score functions onto the \(\sigma\)-algebra generated by \(K\); equality corresponds to score \(K\)-measurability, i.e., Blackwell sufficiency \parencite[Ch.\ 2, 3]{AmariNagaoka2000,Cencov1982}.
+
+\begin{corollary}[CRLB monotonicity]\label{cor:crlb}
+For any unbiased estimator \(\hat\theta\) from \(Q_\theta\),
+\[
+\Var(\hat\theta)\;\succeq\; I_Q(\theta)^{-1}\;\succeq\; I_P(\theta)^{-1},
+\]
+with strict inequality whenever \(K\) is not sufficient \parencite[Ch.\ 2]{CoverThomas2006}.
+\end{corollary}
+
+\section{Composition, idempotents, and coarse-graining}
+If \(K_1\) and \(K_2\) are projections then \(K_2\circ K_1\) is a projection; FI contracts along the chain and is constant along any segment of sufficient kernels. If \(K\) is idempotent (coarse-graining) then \(I\) decreases at most once and stabilizes under further applications of \(K\). These statements descend to quotient flows after aggregation \parencite{elliott2025qfi,elliott2025flow}.
+
+\section{Quantum lift: diagonal embedding and Petz sufficiency}
+Embed the classical family via diagonal states \(\rho_\theta=\sum_x p_\theta(x)\,|x\rangle\!\langle x|\). A quantum channel \(\Phi\) acting on \(\rho_\theta\) induces \( \sigma_\theta=\Phi(\rho_\theta)\). For any monotone quantum Fisher metric \(g\) (Petz family), the data-processing inequality holds:
+\[
+g_{\sigma_\theta}(\dot\sigma_\theta,\dot\sigma_\theta)\;\le\; g_{\rho_\theta}(\dot\rho_\theta,\dot\rho_\theta),
+\]
+with equality iff \(\Phi\) is \emph{sufficient} (there exists a recovery map achieving equality in relative entropy), reducing on diagonal subalgebras to \Cref{thm:fi-dpi} \parencite{Petz1986,Petz1996}.
+
+\section{Interoperability with QFI, Flow Centrality, and KI}\label{sec:interop}
+After aggregating path models to a finite quotient \((\Pi,P)\), QFI provides spectral--LDP diagnostics (tilts, rate functions, Murphy horizons) that are invariant under measurable isomorphisms and stable under lumpability \parencite{elliott2025qfi,DemboZeitouni1998}. Flow Centrality detects bottlenecks where idiom projections share mass, aligning FI curvature spikes with central edges \parencite{elliott2025flow}. KI-\(\Delta\)2 treats these diagnostics as instrumentation for canonical-phase mapping and implementation-agnosticism \parencite{elliott2025ki}.
+
+\section{Coupling to drift validity and Murphy scheduling}
+Ergodic Metric Drift guarantees infinitely-often budget-valid traversal of finite paths under a small-ball condition, extended to weak dependence and Harris chains \parencite{elliott2025drift,KochenStone1964,Freedman1975,MeynTweedie2009}. These success floors parameterize latency distributions in Murphy budgets; occupancy LDP and spectral tilts on \(P\) yield critical horizons and value-of-information schedules \parencite{elliott2025pmb,elliott2025qfi}.
+
+\section{Worked example: two-edge finite path}
+Consider \(x_0\to x_1\to x_2\) with a one-parameter family \(p_\theta\) assigning edge logits \((\theta,-\theta)\) (or rates in an exponential family). The path likelihood induces FI \(I_P(\theta)\). Coarse-grain \(x_1\) via \(K\) that maps \((x_0,x_1,x_2)\mapsto(y_0,y_2)\) by marginalizing the middle step. Then:
+\begin{enumerate}
+  \item \(I_Q(\theta) < I_P(\theta)\) unless \(x_1\) is conditionally ignorable (sufficient statistic equalities), in which case equality holds by \Cref{thm:fi-dpi} \parencite{AmariNagaoka2000,Cencov1982}.
+  \item The CRLB widens strictly under non-sufficient \(K\) by \Cref{cor:crlb} \parencite[Ch.\ 2]{CoverThomas2006}.
+  \item Aggregation to \(P\) on \(\{y_0,y_2\}\) gives a tilted spectral curve \(\Lambda(t)=\log\rho(\mathrm{diag}(e^{t\cdot\1_{y_2}})P)\); the Murphy horizon \(L_c(\theta)\) quantifies finite-time evidence acquisition \parencite{DemboZeitouni1998,elliott2025pmb}.
+\end{enumerate}
+Flow Centrality scores the middle edge as a high-betweenness bottleneck; removing it increases action-betweenness \(\mathrm{AB}_\alpha\) and degrades FI curvature, matching diagnostics \parencite{elliott2025flow,elliott2025qfi}.
+
+\section{Algorithmic templates}
+\paragraph{Projection \(\Rightarrow\) FI transport.} (i) Fit \(\pi_\theta\) on path data; (ii) pushforward by \(K\); (iii) compute \(I_P(\theta)\) and \(I_Q(\theta)\) from score covariances; (iv) test sufficiency via risk preservation or score measurability \parencite{Blackwell1953,AmariNagaoka2000}.
+
+\paragraph{Quotient diagnostics.} (i) Partition histories; (ii) aggregate to \(P\); (iii) compute tilts \(\Lambda(t)\) and rate functions \(I(\theta)\); (iv) produce Murphy plots; (v) overlay Flow Centrality; (vi) cross-check FI curvature spikes \parencite{elliott2025qfi,DemboZeitouni1998,elliott2025flow,elliott2025pmb}.
+
+\section{Limits, falsifiers, and stability}
+Failure modes include: (i) high lumpability error swamping spectral gaps (unstable tilts), (ii) strictly contracting FI under every idiom with no equality regimes (no sufficient statistics), and (iii) drift violating small-ball floors (no coverage). Falsifiers follow the KI protocol: persistent low concentration, non-overlapping canonical supports under matched gauge, and Lipschitz violations away from bifurcations \parencite{elliott2025ki,elliott2025drift}.
+
+\section*{Acknowledgments}
+This consolidated version integrates equality conditions, quantum lift, quotient geometry, and finite-time scheduling in one file, aligned with the broader runtime: QFI, Flow Centrality, Drift Validity, Murphy Budgeting, Contracts, and Graded Effects.
 
 \printbibliography
 
